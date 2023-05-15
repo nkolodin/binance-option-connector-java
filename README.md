@@ -8,14 +8,6 @@ Options Websocket Market Stream
 ## Installation
 Replace LATEST_VERSION with the latest version number and paste the snippet below in pom.xml
 
-```maven
-<dependency>
-    <groupId>org.binance</groupId>
-    <artifactId>binance-option-connector-java</artifactId>
-    <version>LATEST_VERSION</version>
-</dependency>
-```
-
 Run mvn install where pom.xml is located to install the dependency.
 
 # Run Example
