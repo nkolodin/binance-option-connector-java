@@ -31,24 +31,13 @@ public class WebsocketClientImpl implements WebsocketClient {
         return this.baseUrl;
     }
 
-    public int aggTradeStream(String symbol, WebSocketCallback onMessageCallback) {
+    public int markPriceStream(String symbol, WebSocketCallback onMessageCallback) {
         ParameterChecker.checkParameterType(symbol, String.class, "symbol");
-        return this.aggTradeStream(symbol, this.noopCallback, onMessageCallback, this.noopCallback, this.noopCallback);
+        return this.markPriceStream(symbol, this.noopCallback, onMessageCallback, this.noopCallback, this.noopCallback);
     }
 
-    public int aggTradeStream(String symbol, WebSocketCallback onOpenCallback, WebSocketCallback onMessageCallback, WebSocketCallback onClosingCallback, WebSocketCallback onFailureCallback) {
-        ParameterChecker.checkParameterType(symbol, String.class, "symbol");
-        Request request = RequestBuilder.buildWebsocketRequest(String.format("%s/ws/%s@aggTrade", this.baseUrl, symbol.toLowerCase()));
-        return this.createConnection(onOpenCallback, onMessageCallback, onClosingCallback, onFailureCallback, request);
-    }
-
-    public int markPriceStream(String symbol, int speed, WebSocketCallback onMessageCallback) {
-        ParameterChecker.checkParameterType(symbol, String.class, "symbol");
-        return this.markPriceStream(symbol, speed, this.noopCallback, onMessageCallback, this.noopCallback, this.noopCallback);
-    }
-
-    public int markPriceStream(String symbol, int speed, WebSocketCallback onOpenCallback, WebSocketCallback onMessageCallback, WebSocketCallback onClosingCallback, WebSocketCallback onFailureCallback) {
-        Request request = RequestBuilder.buildWebsocketRequest(String.format("%s/ws/%s@markPrice@%ss", this.baseUrl, symbol.toLowerCase(), speed));
+    public int markPriceStream(String symbol, WebSocketCallback onOpenCallback, WebSocketCallback onMessageCallback, WebSocketCallback onClosingCallback, WebSocketCallback onFailureCallback) {
+        Request request = RequestBuilder.buildWebsocketRequest(String.format("%s/ws/%s@markPrice", this.baseUrl, symbol.toLowerCase()));
         return this.createConnection(onOpenCallback, onMessageCallback, onClosingCallback, onFailureCallback, request);
     }
 
@@ -63,39 +52,6 @@ public class WebsocketClientImpl implements WebsocketClient {
         return this.createConnection(onOpenCallback, onMessageCallback, onClosingCallback, onFailureCallback, request);
     }
 
-    public int continuousKlineStream(String pair, String contractType, String interval, WebSocketCallback onMessageCallback) {
-        ParameterChecker.checkParameterType(pair, String.class, "pair");
-        return this.continuousKlineStream(pair, contractType, interval, this.noopCallback, onMessageCallback, this.noopCallback, this.noopCallback);
-    }
-
-    public int continuousKlineStream(String pair, String contractType, String interval, WebSocketCallback onOpenCallback, WebSocketCallback onMessageCallback, WebSocketCallback onClosingCallback, WebSocketCallback onFailureCallback) {
-        ParameterChecker.checkParameterType(pair, String.class, "pair");
-        ParameterChecker.checkParameterType(contractType, String.class, "contractType");
-        ParameterChecker.checkParameterType(interval, String.class, "interval");
-        Request request = RequestBuilder.buildWebsocketRequest(String.format("%s/ws/%s_%s@continuousKline_%s", this.baseUrl, pair.toLowerCase(), contractType, interval));
-        return this.createConnection(onOpenCallback, onMessageCallback, onClosingCallback, onFailureCallback, request);
-    }
-
-    public int miniTickerStream(String symbol, WebSocketCallback onMessageCallback) {
-        ParameterChecker.checkParameterType(symbol, String.class, "symbol");
-        return this.miniTickerStream(symbol, this.noopCallback, onMessageCallback, this.noopCallback, this.noopCallback);
-    }
-
-    public int miniTickerStream(String symbol, WebSocketCallback onOpenCallback, WebSocketCallback onMessageCallback, WebSocketCallback onClosingCallback, WebSocketCallback onFailureCallback) {
-        ParameterChecker.checkParameterType(symbol, String.class, "symbol");
-        Request request = RequestBuilder.buildWebsocketRequest(String.format("%s/ws/%s@miniTicker", this.baseUrl, symbol.toLowerCase()));
-        return this.createConnection(onOpenCallback, onMessageCallback, onClosingCallback, onFailureCallback, request);
-    }
-
-    public int allMiniTickerStream(WebSocketCallback onMessageCallback) {
-        return this.allMiniTickerStream(this.noopCallback, onMessageCallback, this.noopCallback, this.noopCallback);
-    }
-
-    public int allMiniTickerStream(WebSocketCallback onOpenCallback, WebSocketCallback onMessageCallback, WebSocketCallback onClosingCallback, WebSocketCallback onFailureCallback) {
-        Request request = RequestBuilder.buildWebsocketRequest(String.format("%s/ws/!miniTicker@arr", this.baseUrl));
-        return this.createConnection(onOpenCallback, onMessageCallback, onClosingCallback, onFailureCallback, request);
-    }
-
     public int symbolTicker(String symbol, WebSocketCallback onMessageCallback) {
         ParameterChecker.checkParameterType(symbol, String.class, "symbol");
         return this.symbolTicker(symbol, this.noopCallback, onMessageCallback, this.noopCallback, this.noopCallback);
@@ -104,56 +60,6 @@ public class WebsocketClientImpl implements WebsocketClient {
     public int symbolTicker(String symbol, WebSocketCallback onOpenCallback, WebSocketCallback onMessageCallback, WebSocketCallback onClosingCallback, WebSocketCallback onFailureCallback) {
         ParameterChecker.checkParameterType(symbol, String.class, "symbol");
         Request request = RequestBuilder.buildWebsocketRequest(String.format("%s/ws/%s@ticker", this.baseUrl, symbol.toLowerCase()));
-        return this.createConnection(onOpenCallback, onMessageCallback, onClosingCallback, onFailureCallback, request);
-    }
-
-    public int allTickerStream(WebSocketCallback onMessageCallback) {
-        return this.allTickerStream(this.noopCallback, onMessageCallback, this.noopCallback, this.noopCallback);
-    }
-
-    public int allTickerStream(WebSocketCallback onOpenCallback, WebSocketCallback onMessageCallback, WebSocketCallback onClosingCallback, WebSocketCallback onFailureCallback) {
-        Request request = RequestBuilder.buildWebsocketRequest(String.format("%s/ws/!ticker@arr", this.baseUrl));
-        return this.createConnection(onOpenCallback, onMessageCallback, onClosingCallback, onFailureCallback, request);
-    }
-
-    public int bookTicker(String symbol, WebSocketCallback onMessageCallback) {
-        ParameterChecker.checkParameterType(symbol, String.class, "symbol");
-        return this.bookTicker(symbol, this.noopCallback, onMessageCallback, this.noopCallback, this.noopCallback);
-    }
-
-    public int bookTicker(String symbol, WebSocketCallback onOpenCallback, WebSocketCallback onMessageCallback, WebSocketCallback onClosingCallback, WebSocketCallback onFailureCallback) {
-        ParameterChecker.checkParameterType(symbol, String.class, "symbol");
-        Request request = RequestBuilder.buildWebsocketRequest(String.format("%s/ws/%s@bookTicker", this.baseUrl, symbol.toLowerCase()));
-        return this.createConnection(onOpenCallback, onMessageCallback, onClosingCallback, onFailureCallback, request);
-    }
-
-    public int allBookTickerStream(WebSocketCallback onMessageCallback) {
-        return this.allBookTickerStream(this.noopCallback, onMessageCallback, this.noopCallback, this.noopCallback);
-    }
-
-    public int allBookTickerStream(WebSocketCallback onOpenCallback, WebSocketCallback onMessageCallback, WebSocketCallback onClosingCallback, WebSocketCallback onFailureCallback) {
-        Request request = RequestBuilder.buildWebsocketRequest(String.format("%s/ws/!bookTicker", this.baseUrl));
-        return this.createConnection(onOpenCallback, onMessageCallback, onClosingCallback, onFailureCallback, request);
-    }
-
-
-    public int forceOrderStream(String symbol, WebSocketCallback onMessageCallback) {
-        ParameterChecker.checkParameterType(symbol, String.class, "symbol");
-        return this.forceOrderStream(symbol, this.noopCallback, onMessageCallback, this.noopCallback, this.noopCallback);
-    }
-
-    public int forceOrderStream(String symbol, WebSocketCallback onOpenCallback, WebSocketCallback onMessageCallback, WebSocketCallback onClosingCallback, WebSocketCallback onFailureCallback) {
-        ParameterChecker.checkParameterType(symbol, String.class, "symbol");
-        Request request = RequestBuilder.buildWebsocketRequest(String.format("%s/ws/%s@forceOrder", this.baseUrl, symbol.toLowerCase()));
-        return this.createConnection(onOpenCallback, onMessageCallback, onClosingCallback, onFailureCallback, request);
-    }
-
-    public int allForceOrderStream(WebSocketCallback onMessageCallback) {
-        return this.allForceOrderStream(this.noopCallback, onMessageCallback, this.noopCallback, this.noopCallback);
-    }
-
-    public int allForceOrderStream(WebSocketCallback onOpenCallback, WebSocketCallback onMessageCallback, WebSocketCallback onClosingCallback, WebSocketCallback onFailureCallback) {
-        Request request = RequestBuilder.buildWebsocketRequest(String.format("%s/ws/!forceOrder@arr", this.baseUrl));
         return this.createConnection(onOpenCallback, onMessageCallback, onClosingCallback, onFailureCallback, request);
     }
 

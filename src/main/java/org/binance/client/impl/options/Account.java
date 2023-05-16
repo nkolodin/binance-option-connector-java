@@ -70,9 +70,24 @@ public abstract class Account {
         return this.requestHandler.sendSignedRequest(this.productUrl, ORDER, parameters, HttpMethod.POST, this.showLimitUsage);
     }
 
+    public String checkOrderStatus(LinkedHashMap<String, Object> parameters) {
+        ParameterChecker.checkParameter(parameters, "symbol", String.class);
+        return this.requestHandler.sendSignedRequest(this.productUrl, ORDER, parameters, HttpMethod.GET, this.showLimitUsage);
+    }
+
+    public String cancelOptionOrder(LinkedHashMap<String, Object> parameters) {
+        ParameterChecker.checkParameter(parameters, "symbol", String.class);
+        return this.requestHandler.sendSignedRequest(this.productUrl, ORDER, parameters, HttpMethod.DELETE, this.showLimitUsage);
+    }
+
     public String placeMultipleOrders(LinkedHashMap<String, Object> parameters) {
-        ParameterChecker.checkRequiredParameter(parameters, "batchOrders");
+        ParameterChecker.checkRequiredParameter(parameters, "orders");
         return this.requestHandler.sendSignedRequest(this.productUrl, BATCH_ORDERS, parameters, HttpMethod.POST, this.showLimitUsage);
+    }
+
+    public String cancelAnActiveOrder(LinkedHashMap<String, Object> parameters) {
+        ParameterChecker.checkRequiredParameter(parameters, "symbol");
+        return this.requestHandler.sendSignedRequest(this.productUrl, BATCH_ORDERS, parameters, HttpMethod.DELETE, this.showLimitUsage);
     }
 
     public String cancelAllOpenOrders(LinkedHashMap<String, Object> parameters) {
@@ -94,26 +109,25 @@ public abstract class Account {
 
     public String cancelAllOptionOrdersByUnderlying(LinkedHashMap<String, Object> parameters) {
         ParameterChecker.checkParameter(parameters, "underlying", String.class);
-        return this.requestHandler.sendSignedRequest(this.productUrl, ALL_OPTION_ORDERS_BY_UNDERLYING, parameters, HttpMethod.POST, this.showLimitUsage);
+        return this.requestHandler.sendSignedRequest(this.productUrl, ALL_OPTION_ORDERS_BY_UNDERLYING, parameters, HttpMethod.DELETE, this.showLimitUsage);
     }
 
     public String optionOrderHistory(LinkedHashMap<String, Object> parameters) {
         ParameterChecker.checkParameter(parameters, "symbol", String.class);
-        return this.requestHandler.sendSignedRequest(this.productUrl, HISTORY_ORDERS, parameters, HttpMethod.POST, this.showLimitUsage);
+        return this.requestHandler.sendSignedRequest(this.productUrl, HISTORY_ORDERS, parameters, HttpMethod.GET, this.showLimitUsage);
     }
 
     public String optionPositionInformation(LinkedHashMap<String, Object> parameters) {
-        ParameterChecker.checkParameter(parameters, "symbol", String.class);
-        return this.requestHandler.sendSignedRequest(this.productUrl, OPTION_POSITION_INFORMATION, parameters, HttpMethod.POST, this.showLimitUsage);
+        return this.requestHandler.sendSignedRequest(this.productUrl, OPTION_POSITION_INFORMATION, parameters, HttpMethod.GET, this.showLimitUsage);
     }
 
     public String userExerciseRecord(LinkedHashMap<String, Object> parameters) {
-        return this.requestHandler.sendSignedRequest(this.productUrl, EXERCISE_RECORD, parameters, HttpMethod.POST, this.showLimitUsage);
+        return this.requestHandler.sendSignedRequest(this.productUrl, EXERCISE_RECORD, parameters, HttpMethod.GET, this.showLimitUsage);
     }
 
     public String accountFoundingFlow(LinkedHashMap<String, Object> parameters) {
         ParameterChecker.checkParameter(parameters, "currency", String.class);
-        return this.requestHandler.sendSignedRequest(this.productUrl, ACCOUNT_FOUNDING_FLOW, parameters, HttpMethod.POST, this.showLimitUsage);
+        return this.requestHandler.sendSignedRequest(this.productUrl, ACCOUNT_FOUNDING_FLOW, parameters, HttpMethod.GET, this.showLimitUsage);
     }
 
 }
